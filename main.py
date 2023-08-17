@@ -57,6 +57,7 @@ plt.title("Predicción del rating de libros")
 
 # Agregar etiquetas a los puntos en la gráfica
 for i in range(len(X_test)):
+    #las siguientes lineas de codigo son los textos que apareceran en la grafica
 #    plt.annotate(f"{X_test.iloc[i]['bookID']}: {X_test.iloc[i]['title']} - {X_test.iloc[i]['authors']} - {X_test.iloc[i]['publisher']}",
 #                 (y_test.iloc[i], y_pred[i]))
     plt.annotate(f"{X_test.iloc[i]['title']}",
