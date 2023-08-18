@@ -42,6 +42,7 @@ print("Error cuadrático medio (MSE):", mse)
 # Crear un DataFrame para los resultados reales y predichos
 results = pd.DataFrame({'True Rating': y_test, 'Predicted Rating': y_pred})
 
+<<<<<<< HEAD
 # Agregar la información de los libros a los resultados
 results = pd.concat([results, X_test], axis=1)
 
@@ -61,3 +62,13 @@ fig.update_layout(
 
 # Mostrar el gráfico interactivo
 fig.show()
+=======
+# Agregar etiquetas a los puntos en la gráfica
+for i in range(len(X_test)):
+    #las siguientes lineas de codigo son los textos que apareceran en la grafica
+#    plt.annotate(f"{X_test.iloc[i]['bookID']}: {X_test.iloc[i]['title']} - {X_test.iloc[i]['authors']} - {X_test.iloc[i]['publisher']}",
+#                 (y_test.iloc[i], y_pred[i]))
+    plt.annotate(f"{X_test.iloc[i]['title']}",
+                 (y_test.iloc[i], y_pred[i]))
+plt.show()
+>>>>>>> f19ad1a2f6856c9b2cef19692e5392c8913a26b5
