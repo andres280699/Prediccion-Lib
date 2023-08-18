@@ -2,17 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
-import matplotlib.pyplot as plt
-import matplotlib.font_manager as fm  # Agregar esta línea de importación
-
-# Ruta de la fuente Arial Unicode MS instalada en tu sistema
-font_path = "/Users/andres arturo perez/PycharmProjects/Prediccion-Lib/arial-unicode-ms.ttf"
-
-# Cargar la fuente
-fontprop = fm.FontProperties(fname=font_path)
-
-# Configurar la fuente predeterminada para matplotlib
-plt.rcParams['font.family'] = fontprop.get_name()
+import plotly.express as px
 
 # Cargar los datos desde el archivo CSV
 data = pd.read_csv("/Users/andres arturo perez/PycharmProjects/Prediccion-Lib/booksf.csv")
@@ -49,16 +39,25 @@ y_pred = model.predict(X_test[['bookID', 'ratings_count', 'text_reviews_count']]
 mse = mean_squared_error(y_test, y_pred)
 print("Error cuadrático medio (MSE):", mse)
 
-# Graficar los valores reales y las predicciones
-plt.scatter(y_test, y_pred)
-plt.xlabel("Valor real")
-plt.ylabel("Predicción")
-plt.title("Predicción del rating de libros")
+# Crear un DataFrame para los resultados reales y predichos
+results = pd.DataFrame({'True Rating': y_test, 'Predicted Rating': y_pred})
 
-# Agregar etiquetas a los puntos en la gráfica
-for i in range(len(X_test)):
-#    plt.annotate(f"{X_test.iloc[i]['bookID']}: {X_test.iloc[i]['title']} - {X_test.iloc[i]['authors']} - {X_test.iloc[i]['publisher']}",
-#                 (y_test.iloc[i], y_pred[i]))
-    plt.annotate(f"{X_test.iloc[i]['title']}",
-                 (y_test.iloc[i], y_pred[i]))
-plt.show()
+# Agregar la información de los libros a los resultados
+results = pd.concat([results, X_test], axis=1)
+
+# Seleccionar las características relevantes para la visualización
+hover_features = ['bookID', 'title', 'authors', 'publisher', 'ratings_count', 'text_reviews_count']
+
+# Graficar utilizando Plotly
+fig = px.scatter(results, x='True Rating', y='Predicted Rating', hover_data=hover_features, text='bookID')
+
+# Configurar el diseño de la gráfica
+fig.update_layout(
+    title="Predicción del rating de libros",
+    xaxis_title="Valor real",
+    yaxis_title="Predicción",
+    template="plotly_dark"
+)
+
+# Mostrar el gráfico interactivo
+fig.show()
